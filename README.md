@@ -35,4 +35,4 @@ PixelEncoding and Range values for all displays with a LinkDescription field.
 
 ## Kudos
 
-Kudos to @GetVladimir for identifying the plist changes that need to be made.
+Kudos to [@GetVladimir](https://github.com/GetVladimir) for identifying the plist changes that need to be made.
