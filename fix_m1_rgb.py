@@ -5,20 +5,8 @@
 Script that attempts to force M1 macs into RGB mode when used with monitors that
 are defaulting to YPbPr.
 No warranty provided for using this script. Use at your own risk.
+
 Usage: ./fix_m1_rgb.py [--dry-run]
-Steps to use this script:
-    1. Make sure you are on Mac OS X 11.4 or higher.
-    2. Open System Preferences > Displays > Rotate the monitor that's in YPbPr
-       mode in order to force it to write to the relevant plist file. You can
-       unrotate it immediately or allow it to auto-revert.
-    3. Make sure this script is executable `chmod +x /path/to/fix_m1_rgb.py`.
-    4. Run `./fix_m1_rgb.py --dry-run` to do a dry run and validate the results.
-    5. After verifying the results, run `./fix_m1_rgb.py`.
-    6. Restart your computer.
-Note: The script will attempt to backup your original plist files. In addition,
-the script does not try to discriminate between various displays, so it will
-write the PixelEncoding and Range values for all displays with a LinkDescription
-field.
 """
 
 from typing import Any, Dict, List, Optional
