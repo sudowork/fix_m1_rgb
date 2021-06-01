@@ -43,14 +43,15 @@ def main() -> None:
 
 
 def check_os() -> None:
-    os_ver = platform.mac_ver()[0]
+    os_ver = subprocess.check_output(["sw_vers",
+                                      "-productVersion"]).decode().strip()
     parts = os_ver.split(".")
     if parts[0] != "11":
         logging.error("Only tested to work on OS X 11 Big Sur.")
         sys.exit(1)
     if int(parts[1]) < 4:
-        logging.error(
-            "Requires OS X 11.4 or higher. Please update your OS first.")
+        logging.error(f"Requires OS X 11.4 or higher (found {os_ver}). "
+                      "Please update your OS first.")
         sys.exit(1)
 
 
