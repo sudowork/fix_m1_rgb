@@ -16,6 +16,8 @@ No warranty provided for using this script. Use at your own risk.
 
 ### Running the Script
 
+From your Terminal, run:
+
 ```bash
 # Download the script
 curl -o ~/Downloads/fix_m1_rgb.py https://raw.githubusercontent.com/sudowork/fix_m1_rgb/main/fix_m1_rgb.py
