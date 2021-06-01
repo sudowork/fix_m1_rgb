@@ -21,12 +21,10 @@ From your Terminal, run:
 ```bash
 # Download the script
 curl -o ~/Downloads/fix_m1_rgb.py https://raw.githubusercontent.com/sudowork/fix_m1_rgb/main/fix_m1_rgb.py
-# Make the script executable
-chmod +x ~/Downloads/fix_m1_rgb.py
 # Run a dry run and validate the results
-~/Downloads/fix_m1_rgb.py --dry-run
+python3 ~/Downloads/fix_m1_rgb.py --dry-run
 # Once the results are validated, apply the changes.
-~/Downloads/fix_m1_rgb.py
+python3 ~/Downloads/fix_m1_rgb.py
 ```
 
 Restart your computer after you're done, and if all worked out well, then your monitor should be in RGB mode.
