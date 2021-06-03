@@ -14,7 +14,6 @@ from typing import Any, Dict, List, Optional
 import json
 import logging
 import os
-import platform
 import subprocess
 import sys
 import time
