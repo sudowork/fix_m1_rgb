@@ -62,10 +62,27 @@ def get_possible_paths() -> List[str]:
     relative_path_parts = [
         "Library", "Preferences", "com.apple.windowserver.displays.plist"
     ]
-    return [
+    paths = [
         os.path.join("/", *relative_path_parts),
         os.path.join(os.path.expanduser("~"), *relative_path_parts),
     ]
+    host_uuid = get_host_uuid()
+    if host_uuid:
+        byhost_path = os.path.join(
+            os.path.expanduser("~"), "Library", "Preferences", "ByHost",
+            f"com.apple.windowserver.displays.{host_uuid}.plist")
+        paths.append(byhost_path)
+    return paths
+
+
+def get_host_uuid() -> Optional[str]:
+    output = subprocess.check_output(
+        ["ioreg", "-d2", "-c", "IOPlatformExpertDevice"]).decode()
+    for line in output.splitlines():
+        if "IOPlatformUUID" in line:
+            return line.split(" ")[-1].strip('"')
+    logging.warning("Could not identify Mac UUID")
+    return None
 
 
 def fix_display_prefs(path: str) -> None:
