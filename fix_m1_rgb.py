@@ -118,7 +118,7 @@ def fix_display_prefs(path: str) -> None:
             logging.info(f"Did not fix Display {uuid}. "
                          "Values for PixelEncoding and Range not as expected.")
 
-    logging.info("Resulting XML output:")
+    logging.info(f"Resulting XML output for `{path}`:")
     print(ET.tostring(xml).decode())
 
     write_output(path, xml)
