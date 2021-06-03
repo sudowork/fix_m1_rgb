@@ -11,6 +11,7 @@ Usage: ./fix_m1_rgb.py [--dry-run]
 
 from typing import Any, Dict, List, Optional
 
+import argparse
 import json
 import logging
 import os
@@ -20,11 +21,11 @@ import time
 import tempfile
 import xml.etree.ElementTree as ET
 
-_DRY_RUN = "--dry-run" in sys.argv
+options: argparse.Namespace
 
 
 def main() -> None:
-    if _DRY_RUN:
+    if options.dry_run:
         logging.info("Running in Dry Run mode.")
     check_os()
     paths = get_possible_paths()
@@ -162,7 +163,7 @@ def get_dict_value(plist_dict: ET.Element, key: str) -> Optional[ET.Element]:
 
 def write_output(path: str, xml: ET.Element) -> None:
     logging.info(f"Writing output to {path}")
-    if not _DRY_RUN:
+    if not options.dry_run:
         with tempfile.NamedTemporaryFile() as tmp:
             tmp.write(ET.tostring(xml))
             tmp.flush()
@@ -175,7 +176,7 @@ def backup(path: str) -> None:
     ts = str(int(time.time()))
     backup_path = f"{path}.bak.{ts}"
     logging.info(f"Backing up file {path} -> {backup_path}")
-    if not _DRY_RUN:
+    if not options.dry_run:
         # Use sudo for root
         backup_args = ["cp", "-v", path, backup_path]
         if should_sudo(path):
@@ -203,4 +204,15 @@ def plutil_convert(path: str,
 
 if __name__ == "__main__":
     logging.getLogger().setLevel(logging.INFO)
+
+    parser = argparse.ArgumentParser(
+        description=("Script that attempts to force M1 Macs into RGB mode "
+                     "when used with monitors that are defaulting to YPbPr."))
+    parser.add_argument(
+        "--dry-run",
+        default=False,
+        action="store_true",
+        help="prints what would be done without modifying any files")
+    options = parser.parse_args()
+
     main()
