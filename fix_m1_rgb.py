@@ -203,7 +203,9 @@ def plutil_convert(path: str,
 
 
 if __name__ == "__main__":
-    logging.getLogger().setLevel(logging.INFO)
+    logging.basicConfig(level=logging.INFO,
+                        format="[%(asctime)s %(levelname)7s] %(message)s",
+                        datefmt="%Y-%m-%d %H:%M:%S")
 
     parser = argparse.ArgumentParser(
         description=("Script that attempts to force M1 Macs into RGB mode "
