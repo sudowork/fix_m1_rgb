@@ -24,6 +24,7 @@ curl -o ~/Downloads/fix_m1_rgb.py https://raw.githubusercontent.com/sudowork/fix
 # Run a dry run and validate the results
 python3 ~/Downloads/fix_m1_rgb.py --dry-run
 # Once the results are validated, apply the changes.
+# Note: You may be prompted for your password in order to backup and modify files under /Library.
 python3 ~/Downloads/fix_m1_rgb.py
 ```
 
