@@ -35,9 +35,8 @@ def main() -> None:
     found_paths = [path for path in paths if os.path.exists(path)]
     if not found_paths:
         logging.warning(
-            "Could not find any display preferences. "
-            "Try rotating your screen in Display preferences to create the file."
-        )
+            "Could not find any display preferences. Try "
+            "rotating your screen in Display preferences to create the file.")
         sys.exit(1)
 
     for path in found_paths:
