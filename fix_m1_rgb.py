@@ -29,6 +29,9 @@ def main() -> None:
         logging.info("Running in Dry Run mode.")
     check_os()
     paths = get_possible_paths()
+    logging.info("Looking for preferences in:\n" +
+                 "\n".join(f"\t{path}" for path in paths))
+
     found_paths = [path for path in paths if os.path.exists(path)]
     if not found_paths:
         logging.warning(
