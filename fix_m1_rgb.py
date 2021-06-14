@@ -49,6 +49,14 @@ def check_os() -> None:
                                       "-productVersion"]).decode().strip()
     parts = os_ver.split(".")
     if parts[0] != "11":
+        if parts[0] == "12":
+            logging.warning(
+                "This script has not fully been tested on OS X 12 Monterey.")
+            if options.dry_run:
+                return
+            answer = input("Do you want to continue? [yN] ")
+            if answer == "y":
+                return
         logging.error("Only tested to work on OS X 11 Big Sur.")
         sys.exit(1)
     if int(parts[1]) < 4:
