@@ -55,7 +55,7 @@ def check_os() -> None:
             if options.dry_run:
                 return
             answer = input("Do you want to continue? [yN] ")
-            if answer == "y":
+            if answer.strip().lower() == "y":
                 return
         logging.error("Only tested to work on OS X 11 Big Sur.")
         sys.exit(1)
