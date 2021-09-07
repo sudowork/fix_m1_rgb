@@ -21,12 +21,14 @@ From your Terminal, run:
 ```bash
 # Download the script
 curl -o ~/Downloads/fix_m1_rgb.py https://raw.githubusercontent.com/sudowork/fix_m1_rgb/main/fix_m1_rgb.py
-# Run a dry run and validate the results
-python3 ~/Downloads/fix_m1_rgb.py --dry-run
-# Once the results are validated, apply the changes.
+# Run the script.
+# Note: You may optionally pass the --dry-run flag if you want to validate the script's behavior without actually changing anything.
 # Note: You may be prompted for your password in order to backup and modify files under /Library.
 python3 ~/Downloads/fix_m1_rgb.py
 ```
+
+It is expected to see some "warnings" about some display configurations not having the correct `PixelEncoding` or `Range` values.
+Likewise, some displays may not have a `LinkDescription`.
 
 Restart your computer after you're done, and if all worked out well, then your monitor should be in RGB mode.
 
