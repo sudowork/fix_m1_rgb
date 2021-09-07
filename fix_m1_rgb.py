@@ -43,6 +43,15 @@ def main() -> None:
         logging.info(f"Found `{path}`.")
         fix_display_prefs(path)
 
+    # backup and remove ByHost file if exists
+    byhost_path = get_byhost_path()
+    if byhost_path and os.path.exists(byhost_path):
+        logging.info(f"Found ByHost preferences at {byhost_path} - removing")
+        backup(byhost_path)
+        remove(byhost_path)
+    else:
+        logging.info("Did not find ByHost preferences")
+
 
 def check_os() -> None:
     os_ver = subprocess.check_output(["sw_vers",
@@ -69,17 +78,20 @@ def get_possible_paths() -> List[str]:
     relative_path_parts = [
         "Library", "Preferences", "com.apple.windowserver.displays.plist"
     ]
-    paths = [
+    return [
         os.path.join("/", *relative_path_parts),
         os.path.join(os.path.expanduser("~"), *relative_path_parts),
     ]
+
+
+def get_byhost_path() -> Optional[str]:
     host_uuid = get_host_uuid()
     if host_uuid:
         byhost_path = os.path.join(
             os.path.expanduser("~"), "Library", "Preferences", "ByHost",
             f"com.apple.windowserver.displays.{host_uuid}.plist")
-        paths.append(byhost_path)
-    return paths
+        return byhost_path
+    return None
 
 
 def get_host_uuid() -> Optional[str]:
@@ -190,6 +202,17 @@ def backup(path: str) -> None:
             subprocess.check_call(["sudo"] + backup_args)
         else:
             subprocess.check_call(backup_args)
+
+
+def remove(path: str) -> None:
+    logging.info(f"Removing file {path}")
+    if not options.dry_run:
+        # Use sudo for root
+        remove_args = ["rm", "-v", path]
+        if should_sudo(path):
+            subprocess.check_call(["sudo"] + remove_args)
+        else:
+            subprocess.check_call(remove_args)
 
 
 def should_sudo(path: str) -> bool:
