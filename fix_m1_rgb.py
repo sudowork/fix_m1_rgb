@@ -113,15 +113,18 @@ def fix_display_prefs(path: str) -> None:
     except Exception as e:
         logging.error(f"Failed to fix {path}: {e}")
 
-    if not has_any_link_description(json_data):
+    # Get all configs with LinkDescription field
+    configs_to_fix = list(xml.findall('.//dict[key="LinkDescription"]'))
+
+    # Checks for the presence of at least one LinkDescription field in a config.
+    # This only gets written on OS X 11.4 and higher from testing.
+    if not configs_to_fix:
         logging.info(f"Skipping `{path}`. "
                      "No `LinkDescription` found in display config. "
                      "Try rotating your display from Display settings to "
                      "generate the field in the plist.")
         return
 
-    # Get all configs with LinkDescription field
-    configs_to_fix = list(xml.findall('.//dict[key="LinkDescription"]'))
     num_fixed = 0
     for config in configs_to_fix:
         uuid_elem = get_dict_value(config, "UUID")
@@ -141,16 +144,6 @@ def fix_display_prefs(path: str) -> None:
     print(ET.tostring(xml).decode())
 
     write_output(path, xml)
-
-
-def has_any_link_description(data: Dict[str, Any]) -> bool:
-    # Checks for the presence of at least one LinkDescription field in a config.
-    # This only gets written on OS X 11.4 and higher from testing.
-    configs = data.get("DisplayAnyUserSets", {}).get("Configs", [])
-    for config in configs:
-        if config and config[0] and "LinkDescription" in config[0]:
-            return True
-    return False
 
 
 def fix_config(config: ET.Element) -> bool:
