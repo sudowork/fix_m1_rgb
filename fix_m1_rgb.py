@@ -115,7 +115,7 @@ def fix_display_prefs(path: str) -> None:
 
     # Get all configs with LinkDescription field
     configs_to_fix = list(xml.findall('.//dict[key="LinkDescription"]'))
-    
+
     # Checks for the presence of at least one LinkDescription field in a config.
     # This only gets written on OS X 11.4 and higher from testing.
     if not configs_to_fix:
@@ -124,7 +124,7 @@ def fix_display_prefs(path: str) -> None:
                      "Try rotating your display from Display settings to "
                      "generate the field in the plist.")
         return
-    
+
     num_fixed = 0
     for config in configs_to_fix:
         uuid_elem = get_dict_value(config, "UUID")
